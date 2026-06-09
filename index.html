@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Gormez — Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1F3864;
+      --blue:   #2E5EA8;
+      --blue-lt:#4A7BC8;
+      --chip-bg:#EEF2F8;
+      --gray:   #555;
+      --gray-lt:#888;
+      --border: #DDE3EE;
+      --bg:     #F7F9FC;
+      --white:  #FFFFFF;
+      --radius: 10px;
+      --shadow: 0 2px 16px rgba(31,56,100,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: #222;
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 54px;
+    }
+    nav .brand { color: #fff; font-weight: 600; font-size: .95rem; letter-spacing: .02em; }
+    nav ul { list-style: none; display: flex; gap: 1.8rem; }
+    nav ul li a {
+      color: rgba(255,255,255,.75); text-decoration: none;
+      font-size: .82rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    nav ul li a:hover { color: #fff; }
+
+    /* ── HERO ── */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      color: #fff;
+      padding: 80px 5vw 70px;
+      display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
+    }
+    .avatar {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,.3);
+    }
+    .hero-text h1 { font-size: 2.4rem; font-weight: 700; line-height: 1.2; }
+    .hero-text .subtitle {
+      font-size: 1.1rem; font-weight: 400; opacity: .85; margin-top: .4rem;
+    }
+    .hero-links { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.4rem; }
+    .hero-links a {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(255,255,255,.12); color: #fff;
+      text-decoration: none; font-size: .82rem; font-weight: 500;
+      padding: .35rem .9rem; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.25);
+      transition: background .2s;
+    }
+    .hero-links a:hover { background: rgba(255,255,255,.25); }
+
+    /* ── LAYOUT ── */
+    main { max-width: 900px; margin: 0 auto; padding: 0 5vw 80px; }
+
+    section { padding-top: 60px; }
+
+    .section-title {
+      font-size: 1rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--navy);
+      padding-bottom: .5rem;
+      border-bottom: 3px solid var(--navy);
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── SUMMARY ── */
+    .summary p {
+      font-size: 1rem; color: var(--gray); line-height: 1.75;
+      max-width: 760px;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: flex; flex-direction: column; gap: 1rem; }
+    .skill-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; }
+    .skill-label {
+      font-size: .78rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--blue); min-width: 180px;
+      flex-shrink: 0;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .chip {
+      background: var(--chip-bg); color: var(--blue);
+      font-size: .76rem; font-weight: 600; padding: .2rem .65rem;
+      border-radius: 20px; border: 1px solid var(--border);
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; gap: 2.2rem; }
+    .job { position: relative; padding-left: 1.2rem; border-left: 3px solid var(--border); }
+    .job::before {
+      content: ''; position: absolute; left: -7px; top: 6px;
+      width: 11px; height: 11px; border-radius: 50%;
+      background: var(--blue); border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--blue);
+    }
+    .job-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .3rem; }
+    .job-title { font-size: 1rem; font-weight: 700; color: #111; }
+    .job-org   { font-size: .88rem; color: var(--blue); font-weight: 500; }
+    .job-period{ font-size: .8rem; color: var(--gray-lt); font-style: italic; white-space: nowrap; }
+    .job-desc  { margin-top: .5rem; font-size: .88rem; color: var(--gray); }
+    .job-sub   { margin-top: .9rem; font-size: .8rem; font-weight: 700; text-transform: uppercase;
+                 letter-spacing: .06em; color: var(--blue); }
+    .job ul    { margin-top: .4rem; padding-left: 1.1rem; }
+    .job ul li { font-size: .86rem; color: var(--gray); margin-bottom: .25rem; }
+    .tech-line { margin-top: .5rem; font-size: .82rem; color: var(--gray-lt); }
+    .tech-line strong { color: #444; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: flex; flex-direction: column; gap: 2.5rem; }
+
+    .project-card {
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .project-body { padding: 1.6rem 1.8rem; }
+    .project-title-row {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: .5rem;
+      margin-bottom: .6rem;
+    }
+    .project-title { font-size: 1.05rem; font-weight: 700; color: var(--navy); }
+    .badge {
+      font-size: .73rem; font-weight: 700; padding: .2rem .7rem;
+      border-radius: 20px; text-transform: uppercase; letter-spacing: .05em;
+    }
+    .badge-live  { background: #E6F4EA; color: #1E7E34; border: 1px solid #A8D5B0; }
+    .badge-build { background: #FFF3E0; color: #B45309; border: 1px solid #F5CFA0; }
+    .project-desc { font-size: .88rem; color: var(--gray); margin-bottom: .9rem; }
+    .project-card .chips { margin-bottom: .6rem; }
+
+    /* phone screenshots strip */
+    .screenshots {
+      display: flex; gap: 10px; overflow-x: auto;
+      padding: 0 1.8rem 1.4rem;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+    .screenshots img {
+      height: 260px; width: auto; border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.15);
+      flex-shrink: 0; object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    /* ── EDUCATION ── */
+    .edu-list { display: flex; flex-direction: column; gap: 1rem; }
+    .edu-item { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .3rem; }
+    .edu-degree { font-size: .95rem; font-weight: 600; color: #111; }
+    .edu-school { font-size: .85rem; color: var(--gray); }
+    .edu-year   { font-size: .82rem; color: var(--gray-lt); font-style: italic; white-space: nowrap; }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-list { display: flex; flex-direction: column; gap: .7rem; }
+    .cert-item {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: .3rem;
+      padding: .65rem 1rem; background: var(--white);
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    .cert-name   { font-size: .88rem; font-weight: 600; color: #111; }
+    .cert-issuer { font-size: .8rem; color: var(--gray); }
+    .cert-date   { font-size: .78rem; color: var(--gray-lt); font-style: italic; white-space: nowrap; }
+
+    /* ── LANGUAGES ── */
+    .lang-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .lang-item {
+      display: flex; flex-direction: column; align-items: center;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: .8rem 1.4rem; min-width: 100px;
+    }
+    .lang-name  { font-weight: 700; font-size: .95rem; color: var(--navy); }
+    .lang-level { font-size: .78rem; color: var(--gray-lt); margin-top: .1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.6);
+      text-align: center; font-size: .8rem; padding: 1.6rem 5vw;
+      margin-top: 60px;
+    }
+    footer a { color: rgba(255,255,255,.8); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header { padding: 50px 5vw 50px; }
+      .hero-text h1 { font-size: 1.8rem; }
+      nav ul { gap: 1rem; }
+      nav ul li a { font-size: .72rem; }
+      .skill-label { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">David Gormez</span>
+  <ul>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="avatar">👨‍💻</div>
+  <div class="hero-text">
+    <h1>David Gormez</h1>
+    <div class="subtitle">Full Stack Developer &nbsp;·&nbsp; Brussels, Belgium</div>
+    <div class="hero-links">
+      <a href="mailto:dgormez@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        dgormez@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/david-gormez-07ba47b8" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/dgormez" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/dgormez
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="section-title">About</div>
+    <div class="summary">
+      <p>
+        Full Stack Developer with 10+ years of experience across enterprise software, cloud-native platforms,
+        and mobile development. Civil engineer with a specialisation in biomedical sciences and image processing,
+        bringing a rigorous, analytical approach to software architecture. Deep expertise in .NET ecosystems
+        and Azure cloud, currently a key developer on large-scale energy management microservices at Elia
+        (Belgian TSO). Passionate about shipping products end-to-end — from infrastructure to mobile apps.
+        Trilingual (EN / FR / NL), fast learner, and active open-source contributor.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+
+      <div class="skill-row">
+        <span class="skill-label">Cloud &amp; Infrastructure</span>
+        <div class="chips">
+          <span class="chip">Azure AKS</span>
+          <span class="chip">Azure App Service</span>
+          <span class="chip">Azure DevOps</span>
+          <span class="chip">Azure AD B2C</span>
+          <span class="chip">AppInsights</span>
+          <span class="chip">KeyVault</span>
+          <span class="chip">EventHubs</span>
+          <span class="chip">Redis Cache</span>
+          <span class="chip">GCP Cloud Run</span>
+          <span class="chip">Artifact Registry</span>
+          <span class="chip">Kubernetes</span>
+          <span class="chip">Freelens</span>
+          <span class="chip">K9s</span>
+          <span class="chip">Helm</span>
+          <span class="chip">Docker</span>
+          <span class="chip">Terraform</span>
+          <span class="chip">Dapr</span>
+          <span class="chip">KubeMQ</span>
+          <span class="chip">gRPC</span>
+          <span class="chip">Kong API Gateway</span>
+          <span class="chip">GitHub Actions</span>
+          <span class="chip">Jenkins</span>
+          <span class="chip">SonarQube</span>
+          <span class="chip">Trivy</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <span class="skill-label">.NET &amp; Backend</span>
+        <div class="chips">
+          <span class="chip">.NET 6 / 8 / 9 / 10</span>
+          <span class="chip">ASP.NET Core</span>
+          <span class="chip">Minimal API</span>
+          <span class="chip">C#</span>
+          <span class="chip">EF Core</span>
+          <span class="chip">Blazor Server</span>
+          <span class="chip">Blazor WASM</span>
+          <span class="chip">WPF</span>
+          <span class="chip">WCF</span>
+          <span class="chip">Mediator Pattern</span>
+          <span class="chip">JWT Auth</span>
+          <span class="chip">REST / WebAPI</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <span class="skill-label">Mobile &amp; Frontend</span>
+        <div class="chips">
+          <span class="chip">React Native</span>
+          <span class="chip">Expo</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">NativeWind</span>
+          <span class="chip">Zustand</span>
+          <span class="chip">expo-sqlite</span>
+          <span class="chip">VueJS</span>
+          <span class="chip">EAS Build</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <span class="skill-label">Databases</span>
+        <div class="chips">
+          <span class="chip">SQL Server</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">Supabase</span>
+          <span class="chip">MongoDB</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <span class="skill-label">Practices</span>
+        <div class="chips">
+          <span class="chip">Agile / Scrum</span>
+          <span class="chip">SAFe</span>
+          <span class="chip">DevOps</span>
+          <span class="chip">Microservices</span>
+          <span class="chip">CI/CD</span>
+          <span class="chip">Git</span>
+          <span class="chip">PowerShell</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-title">Experience</div>
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Full Stack Developer</div>
+            <div class="job-org">Reply &mdash; Elia (Belgian TSO)</div>
+          </div>
+          <span class="job-period">Jun 2020 &ndash; Present</span>
+        </div>
+        <p class="job-desc">Core developer on mission-critical energy management platforms for the Belgian transmission system operator.</p>
+
+        <div class="job-sub">Consumer Centricity Platform</div>
+        <ul>
+          <li>Contributed to 50+ ASP.NET Core microservices enabling flexible energy consumption &amp; green energy production (Belgian &amp; German markets)</li>
+          <li>Actively drove refactoring to Mediator Pattern and migration to Blazor Server Side</li>
+          <li>Handled deployments staging → production via Freelens and K9s on Azure Kubernetes</li>
+          <li>Replaced Redis pods with Azure Redis Cache for managed caching</li>
+          <li>Integrated Dapr &amp; KubeMQ with gRPC event streaming; wired AppInsights, KeyVaults, EventHubs, Kong</li>
+          <li>Automated quality gates with SonarQube and vulnerability scanning with Trivy</li>
+        </ul>
+        <p class="tech-line"><strong>Stack:</strong> .NET 6/8/10, MongoDB, SQL Server, AKS, Blazor Server, Dapr, KubeMQ, Azure Redis Cache, Kong</p>
+
+        <div class="job-sub">EPIC Portal</div>
+        <ul>
+          <li>Built unified customer portal centralising authentication (ItsMe) and customer data management</li>
+        </ul>
+        <p class="tech-line"><strong>Stack:</strong> .NET Core 3.1→5.0, Azure AD B2C, AKS, Docker + Helm, Blazor WASM + MSAL</p>
+
+        <div class="job-sub">STORM Project</div>
+        <ul>
+          <li>Managed energy mitigation strategies from offshore wind-turbine providers</li>
+        </ul>
+        <p class="tech-line"><strong>Stack:</strong> .NET Core 3.1→5.0, EF Core, SQL Server, WCF, VueJS</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Analyst Developer</div>
+            <div class="job-org">Sopra Steria &mdash; BNP Paribas Fortis</div>
+          </div>
+          <span class="job-period">Oct 2019 &ndash; May 2020</span>
+        </div>
+        <p class="job-desc">Main developer on an internal audit tool for banking transaction compliance and fraud detection.</p>
+        <p class="tech-line"><strong>Stack:</strong> .NET / C#, WPF (MahApps.Metro), EF, SQL Server</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Solution Building Engineer</div>
+            <div class="job-org">Sopra Steria &mdash; Belgian Police</div>
+          </div>
+          <span class="job-period">Apr 2018 &ndash; Jan 2020</span>
+        </div>
+        <p class="job-desc">Built a biometric enrollment application from scratch for local and federal Belgian police (fingerprints, photos, eID). Led a small junior dev team.</p>
+        <ul>
+          <li>Set up CI: Git, Jenkins, SonarQube</li>
+          <li>Integrated third-party SDKs: Crossmatch (fingerprint), Canon, Belgian eID</li>
+        </ul>
+        <p class="tech-line"><strong>Stack:</strong> .NET / C#, WPF, MVVMLight, EF, MySQL</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Software Developer (.NET)</div>
+            <div class="job-org">Intergraph Government Solutions</div>
+          </div>
+          <span class="job-period">Sep 2015 &ndash; May 2018</span>
+        </div>
+        <p class="job-desc">Maintained and extended mission-critical emergency response management software (CAD) used by Police, Medical and Fire services across Belgium.</p>
+        <ul>
+          <li>Delivered bug fixes and new features; owned the Jenkins CI pipeline</li>
+          <li>Automated deployment tasks via PowerShell, Batch, VB.NET, AutoIT</li>
+        </ul>
+        <p class="tech-line"><strong>Stack:</strong> .NET (C#, WPF, MVC, VB.NET), SQL Server, PowerShell, Jenkins, SVN</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Intern — R&amp;D</div>
+            <div class="job-org">Image Guided Therapy SA</div>
+          </div>
+          <span class="job-period">Jul 2014 &ndash; Oct 2014</span>
+        </div>
+        <p class="job-desc">C++ implementation of optical flow algorithms for real-time tumour tracking from MRI data (Master thesis project).</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PERSONAL PROJECTS -->
+  <section id="projects">
+    <div class="section-title">Personal Projects</div>
+    <div class="projects-grid">
+
+      <!-- TwinLong -->
+      <div class="project-card">
+        <div class="project-body">
+          <div class="project-title-row">
+            <span class="project-title">TwinLong &mdash; Baby Tracker</span>
+            <span class="badge badge-live">Live on Play Store</span>
+          </div>
+          <p class="project-desc">
+            Cross-platform mobile app for tracking twins' feedings, sleep, medicine, temperature, weight and eliminations.
+            Offline-first architecture with incremental sync across devices via a shared household UUID —
+            no login required. Published on Google Play Store and submitted to the Apple App Store.
+          </p>
+          <div class="chips">
+            <span class="chip">React Native</span>
+            <span class="chip">Expo</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">NativeWind</span>
+            <span class="chip">Zustand</span>
+            <span class="chip">expo-sqlite</span>
+            <span class="chip">ASP.NET Core 9</span>
+            <span class="chip">EF Core</span>
+            <span class="chip">Supabase PostgreSQL</span>
+            <span class="chip">Azure</span>
+            <span class="chip">GitHub Actions</span>
+            <span class="chip">EAS Build</span>
+          </div>
+        </div>
+        <div class="screenshots">
+          <img src="screenshots/Screen-MainView.jpeg"          alt="TwinLong main view" />
+          <img src="screenshots/Screen-Timeline-SplitView.jpeg" alt="TwinLong timeline" />
+          <img src="screenshots/Screen-EditEntry.jpeg"          alt="TwinLong edit entry" />
+          <img src="screenshots/Screen-Settings.jpeg"           alt="TwinLong settings" />
+          <img src="screenshots/Screen-Babies_exportData.jpeg"  alt="TwinLong export data" />
+        </div>
+      </div>
+
+      <!-- MiniStack -->
+      <div class="project-card">
+        <div class="project-body">
+          <div class="project-title-row">
+            <span class="project-title">MiniStack &mdash; Expo + ASP.NET Boilerplate</span>
+            <span class="badge badge-build">Open Source</span>
+          </div>
+          <p class="project-desc">
+            Production-ready monorepo starter for shipping React Native (Expo) apps backed by an ASP.NET Core Minimal API.
+            Designed to be cloned and in production within a day. Includes JWT auth, offline-first sync,
+            Sentry crash reporting, and CI/CD pipelines for both backend and mobile.
+          </p>
+          <div class="chips">
+            <span class="chip">Expo SDK 54</span>
+            <span class="chip">React Native</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">NativeWind v4</span>
+            <span class="chip">Zustand</span>
+            <span class="chip">ASP.NET Core 10</span>
+            <span class="chip">EF Core</span>
+            <span class="chip">Supabase PostgreSQL</span>
+            <span class="chip">Terraform</span>
+            <span class="chip">Azure App Service</span>
+            <span class="chip">GCP Cloud Run</span>
+            <span class="chip">GitHub Actions</span>
+            <span class="chip">EAS Build</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-title">Education</div>
+    <div class="edu-list">
+      <div class="edu-item">
+        <div>
+          <div class="edu-degree">MSc Civil Engineering — Biomedical &amp; Medical Engineering</div>
+          <div class="edu-school">Université libre de Bruxelles (ULB)</div>
+        </div>
+        <span class="edu-year">2013 – 2015</span>
+      </div>
+      <div class="edu-item">
+        <div>
+          <div class="edu-degree">Bachelor of Engineering</div>
+          <div class="edu-school">Université libre de Bruxelles (ULB)</div>
+        </div>
+        <span class="edu-year">2010 – 2013</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="section-title">Certifications</div>
+    <div class="cert-list">
+      <div class="cert-item">
+        <div>
+          <div class="cert-name">Azure Developer Associate (AZ-204)</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+        <span class="cert-date">Jul 2024</span>
+      </div>
+      <div class="cert-item">
+        <div>
+          <div class="cert-name">MongoDB — Indexing Design</div>
+          <div class="cert-issuer">MongoDB University</div>
+        </div>
+        <span class="cert-date">Mar 2026</span>
+      </div>
+      <div class="cert-item">
+        <div>
+          <div class="cert-name">Certified SAFe® 5 Agilist</div>
+          <div class="cert-issuer">Scaled Agile Inc.</div>
+        </div>
+        <span class="cert-date">Oct 2022</span>
+      </div>
+      <div class="cert-item">
+        <div>
+          <div class="cert-name">Professional Scrum Master I (PSM I)</div>
+          <div class="cert-issuer">Scrum.org</div>
+        </div>
+        <span class="cert-date">Apr 2021</span>
+      </div>
+      <div class="cert-item">
+        <div>
+          <div class="cert-name">Oracle Certified Associate — Java SE 8</div>
+          <div class="cert-issuer">Oracle</div>
+        </div>
+        <span class="cert-date">Jul 2019</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section id="languages">
+    <div class="section-title">Languages</div>
+    <div class="lang-row">
+      <div class="lang-item">
+        <span class="lang-name">English</span>
+        <span class="lang-level">Native / Fluent</span>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">French</span>
+        <span class="lang-level">Native</span>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">Dutch</span>
+        <span class="lang-level">Native / Fluent</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>David Gormez &nbsp;·&nbsp; Brussels, Belgium &nbsp;·&nbsp;
+    <a href="mailto:dgormez@gmail.com">dgormez@gmail.com</a> &nbsp;·&nbsp;
+    <a href="https://github.com/dgormez" target="_blank">GitHub</a> &nbsp;·&nbsp;
+    <a href="https://www.linkedin.com/in/david-gormez-07ba47b8" target="_blank">LinkedIn</a>
+  </p>
+</footer>
+
+</body>
+</html>
