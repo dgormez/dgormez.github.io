@@ -22,6 +22,9 @@
       --white:  #FFFFFF;
       --radius: 10px;
       --shadow: 0 2px 16px rgba(31,56,100,.08);
+      --content: 820px;
+      /* side padding that keeps every band's content in one centered column */
+      --gutter: max(5vw, calc((100% - var(--content)) / 2));
     }
 
     html { scroll-behavior: smooth; }
@@ -38,10 +41,10 @@
       position: sticky; top: 0; z-index: 100;
       background: var(--navy);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw;
-      height: 54px;
+      padding: 0 var(--gutter);
+      min-height: 54px;
     }
-    nav .brand { color: #fff; font-weight: 600; font-size: .95rem; letter-spacing: .02em; }
+    nav .brand { color: #fff; font-weight: 600; font-size: .95rem; letter-spacing: .02em; white-space: nowrap; }
     nav ul { list-style: none; display: flex; gap: 1.8rem; }
     nav ul li a {
       color: rgba(255,255,255,.75); text-decoration: none;
@@ -54,7 +57,7 @@
     header {
       background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
       color: #fff;
-      padding: 80px 5vw 70px;
+      padding: 80px var(--gutter) 70px;
       display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
     }
     .avatar {
@@ -80,7 +83,7 @@
     .hero-links a:hover { background: rgba(255,255,255,.25); }
 
     /* ── LAYOUT ── */
-    main { max-width: 900px; margin: 0 auto; padding: 0 5vw 80px; }
+    main { padding: 0 var(--gutter) 80px; }
 
     section { padding-top: 60px; }
 
@@ -203,7 +206,7 @@
     /* ── FOOTER ── */
     footer {
       background: var(--navy); color: rgba(255,255,255,.6);
-      text-align: center; font-size: .8rem; padding: 1.6rem 5vw;
+      text-align: center; font-size: .8rem; padding: 1.6rem var(--gutter);
       margin-top: 60px;
     }
     footer a { color: rgba(255,255,255,.8); text-decoration: none; }
@@ -211,11 +214,16 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      header { padding: 50px 5vw 50px; }
-      .hero-text h1 { font-size: 1.8rem; }
-      nav ul { gap: 1rem; }
+      :root { --gutter: 20px; }
+      nav { flex-direction: column; justify-content: center; gap: .3rem; padding-top: .6rem; padding-bottom: .6rem; }
+      nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
       nav ul li a { font-size: .72rem; }
+      header { padding-top: 50px; padding-bottom: 50px; gap: 1.5rem; }
+      .hero-text h1 { font-size: 1.8rem; }
       .skill-label { min-width: 100%; }
+      .project-body { padding: 1.3rem 1.2rem; }
+      .screenshots { padding: 0 1.2rem 1.2rem; }
+      .screenshots img { height: 220px; }
     }
   </style>
 </head>
